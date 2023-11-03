@@ -1,5 +1,5 @@
-import { useCanCreateTask } from "@/features/task/create";
 import { UiCetnerContentLayout } from "@/shared/ui/layouts/ui-center-content-layout";
+import { CreateTaskButton, useCanCreateTask} from "@/features/task/create";
 import { TasksList } from "./tasks-list.tsx";
 
 export function TasksPage() {
@@ -8,7 +8,7 @@ export function TasksPage() {
   const body = (
     <>
       <div className="flex gap-2 mt-10">
-        CreateTaskButton
+        <CreateTaskButton />
       </div>
       <TasksList className="mt-10" />
     </>

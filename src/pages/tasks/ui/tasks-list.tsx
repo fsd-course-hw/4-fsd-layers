@@ -1,16 +1,16 @@
 import { Link, generatePath } from "react-router-dom";
-import { useTasks } from "@/entities/task";
-import {  UserPreview, useUsers } from "@/entities/user";
 import { ROUTER_PATHS } from "@/shared/constants/routes";
+import { useTasks } from "@/entities/task";
+import { useBoards } from "@/entities/board";
+import { useCanViewTaskFn } from "@/features/task/view";
 
 const taskUrl = (taskId: string) =>
   generatePath(ROUTER_PATHS.HOME + ROUTER_PATHS.TASK, { taskId });
 
 export function TasksList({ className }: { className?: string }) {
   const { tasks } = useTasks();
-  const users = useUsers((s) => s.usersMap());
-
-  const canViewTask = (taskId: string) => !!taskId;
+  const getBoardById = useBoards((s) => s.getBoardById);
+  const canViewTask = useCanViewTaskFn();
 
   return (
     <div className={className}>
@@ -19,7 +19,6 @@ export function TasksList({ className }: { className?: string }) {
         <thead>
           <th className="text-start">Название:</th>
           <th className="text-start">Описание:</th>
-          <th className="text-start">Автор:</th>
           <th className="text-start">Доска:</th>
           <th></th>
         </thead>
@@ -43,12 +42,7 @@ export function TasksList({ className }: { className?: string }) {
                   {task.description}
                 </td>
                 <td className="p-2">
-                  {task.authorId ?
-                    <UserPreview size="md" {...users[task.authorId]} /> : 'Нет автора'
-                  }
-                </td>
-                <td className="p-2">
-                  Здесь будет информация о доске
+                  {(task.boardId && getBoardById(task.boardId)?.name) ?? 'Доска не назначена' }
                 </td>
                 <td className="p-2">
                   <div className="flex gap-2 ml-auto">
