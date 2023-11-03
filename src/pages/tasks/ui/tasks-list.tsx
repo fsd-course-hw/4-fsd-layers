@@ -3,6 +3,7 @@ import { ROUTER_PATHS } from "@/shared/constants/routes";
 import { useTasks } from "@/entities/task";
 import { useBoards } from "@/entities/board";
 import { useCanViewTaskFn } from "@/features/task/view";
+import {RemoveTaskButton} from '@/features/task/remove.tsx';
 
 const taskUrl = (taskId: string) =>
   generatePath(ROUTER_PATHS.HOME + ROUTER_PATHS.TASK, { taskId });
@@ -47,7 +48,7 @@ export function TasksList({ className }: { className?: string }) {
                 <td className="p-2">
                   <div className="flex gap-2 ml-auto">
                     UpdateBoardButton
-                    RemoveBoardButton
+                    <RemoveTaskButton taskId={task.id} />
                   </div>
                 </td>
               </tr>
