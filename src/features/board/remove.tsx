@@ -1,5 +1,5 @@
 import { Task, useTasks } from '@/entities/task';
-import { Session, useSesson } from "@/entities/session";
+import { Session, useSession } from "@/entities/session";
 import { BoardPartial, useBoards } from "@/entities/board";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
@@ -10,7 +10,7 @@ function canRemoveBoard(board?: BoardPartial, session?: Session) {
 }
 
 function useCanRemoveBoardFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getBoardById = useBoards((s) => s.getBoardById);
   return (boardId: string) => {
     const board = getBoardById(boardId);
@@ -20,7 +20,7 @@ function useCanRemoveBoardFn() {
 
 function useCanRemoveBoard(boardId: string) {
   const board = useBoards((s) => s.getBoardById(boardId));
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   return canRemoveBoard(board, session);
 }
 
@@ -28,10 +28,12 @@ function useUnassignBoardFromTaskFn() {
   const updateTask = useTasks((s) => s.updateTask);
 
   return async (task: Task) => {
-    await updateTask(task.id, {
+    const newTask = {
       ...task,
       boardId: undefined
-    })
+    };
+
+    await updateTask(newTask.id, newTask);
   };
 }
 
@@ -61,7 +63,8 @@ function useRemoveBoard() {
     });
 
     if (canRemoveFn(boardId) && confirmation) {
-      await Promise.all([removeBoard(boardId), unassignBoardFromTasks(boardId)]);
+      await unassignBoardFromTasks(boardId)
+      await removeBoard(boardId);
     }
   };
 }

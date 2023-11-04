@@ -1,5 +1,5 @@
 import { Task, useTasks } from "@/entities/task";
-import { Session, useSesson } from "@/entities/session";
+import { Session, useSession } from "@/entities/session";
 
 export function canUpdateTask(task?: Task, session?: Session) {
   if (!task) return false;
@@ -8,7 +8,7 @@ export function canUpdateTask(task?: Task, session?: Session) {
 }
 
 export function useCanUpdateTaskFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getTaskById = useTasks((s) => s.getTaskById);
   return (taskId: string) => {
     const task = getTaskById(taskId);
@@ -18,6 +18,6 @@ export function useCanUpdateTaskFn() {
 
 export function useCanUpdateTask(taskId: string) {
   const task = useTasks((s) => s.getTaskById(taskId));
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   return canUpdateTask(task, session);
 }

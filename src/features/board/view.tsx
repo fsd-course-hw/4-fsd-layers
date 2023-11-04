@@ -1,5 +1,5 @@
 import { BoardPartial, useBoards } from "@/entities/board";
-import { Session, useSesson } from "@/entities/session";
+import { Session, useSession } from "@/entities/session";
 
 function canViewBoard(board?: BoardPartial, session?: Session) {
   if (!board) return false;
@@ -11,7 +11,7 @@ function canViewBoard(board?: BoardPartial, session?: Session) {
 }
 
 export function useCanViewBoardFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getBoardById = useBoards((s) => s.getBoardById);
   return (boardId: string) => {
     const board = getBoardById(boardId);

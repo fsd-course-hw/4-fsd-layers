@@ -1,5 +1,5 @@
 import {Task, useTasks} from "@/entities/task";
-import { Session, useSesson } from "@/entities/session";
+import { Session, useSession } from "@/entities/session";
 
 function canViewTask(task?: Task, session?: Session): boolean {
   if (!task) return false;
@@ -8,7 +8,7 @@ function canViewTask(task?: Task, session?: Session): boolean {
 }
 
 export function useCanViewTaskFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getTaskById = useTasks((s) => s.getTaskById);
   return (taskId: string) => {
     const task = getTaskById(taskId);

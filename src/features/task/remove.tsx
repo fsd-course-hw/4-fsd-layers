@@ -1,4 +1,4 @@
-import { Session, useSesson } from "@/entities/session";
+import { Session, useSession } from "@/entities/session";
 import { Task, useTasks } from "@/entities/task";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
@@ -10,7 +10,7 @@ function canRemoveTask(task?: Task, session?: Session) {
 }
 
 function useCanRemoveTaskFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getTaskById = useTasks((s) => s.getTaskById);
   return (taskId: string) => {
     const task = getTaskById(taskId);
@@ -20,7 +20,7 @@ function useCanRemoveTaskFn() {
 
 function useCanRemoveTask(taskId: string) {
   const task = useTasks((s) => s.getTaskById(taskId));
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   return canRemoveTask(task, session);
 }
 

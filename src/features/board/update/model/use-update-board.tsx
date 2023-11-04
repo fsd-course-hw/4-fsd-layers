@@ -1,10 +1,10 @@
 import { UpdateBoardData, useBoards } from "@/entities/board";
 import { useCanUpdateBoardFn } from "./use-can-update-board";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 
 export function useUpdateBoard(boardId: string) {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getConfirmation = useGetConfirmation();
   const canUpdateFn = useCanUpdateBoardFn();
 

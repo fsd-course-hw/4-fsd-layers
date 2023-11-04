@@ -1,9 +1,9 @@
 import { CreateTaskData, useTasks } from "@/entities/task";
 import { useCanCreateTask } from "./use-can-create-task";
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 
 export function useCreateTask() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const canCreate = useCanCreateTask();
   const createTaskRaw = useTasks((s) => s.createTask);
 

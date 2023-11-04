@@ -1,8 +1,8 @@
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 import { UiButton } from "@/shared/ui/ui-button";
 
 function useSignOut() {
-  return useSesson((s) => s.removeSession);
+  return useSession((s) => s.removeSession);
 }
 
 export function SignOutButton({ className }: { className?: string }) {
