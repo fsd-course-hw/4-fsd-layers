@@ -1,13 +1,9 @@
-import { useBoards } from "@/entities/board";
+import { Link } from "react-router-dom";
+import { useBoards, boardUrl } from "@/entities/board";
 import { AvatarsList, UserPreview, useUsers } from "@/entities/user";
 import { RemoveBoardButton } from "@/features/board/remove";
 import { UpdateBoardButton } from "@/features/board/update";
 import { useCanViewBoardFn } from "@/features/board/view";
-import { ROUTER_PATHS } from "@/shared/constants/routes";
-import { Link, generatePath } from "react-router-dom";
-
-const boardUrl = (boardId: string) =>
-  generatePath(ROUTER_PATHS.HOME + ROUTER_PATHS.BOARD, { boardId });
 
 export function BoardsList({ className }: { className?: string }) {
   const { boards } = useBoards();

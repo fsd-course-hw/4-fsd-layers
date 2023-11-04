@@ -10,7 +10,6 @@ export function UserSelect({
   error,
 }: {
   error?: string;
-
   className?: string;
   userId?: string;
   label?: string;

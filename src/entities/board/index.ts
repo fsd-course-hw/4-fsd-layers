@@ -1,6 +1,7 @@
 export { createBoardStore } from "./model/board.store";
-export type { BoardStore } from "./model/board.store";
 export { useBoards } from "./model/boards.store";
+export { boardUrl } from "./lib/board-url"
+export type { BoardStore } from "./model/board.store";
 export type { BoardsStore } from "./model/boards.store";
 export type {
   BoardPartial,
@@ -11,3 +12,4 @@ export type {
   CreateBoardData,
   UpdateBoardData,
 } from "./model/types";
+export { BoardSelect } from "./ui/board-select.tsx"

@@ -1,6 +1,8 @@
 import { BoardPage } from "@/pages/board";
 import { BoardsPage } from "@/pages/boards";
 import { UsersPage } from "@/pages/users";
+import { TaskPage } from "@/pages/task";
+import { TasksPage } from "@/pages/tasks";
 import { RootLayout } from "@/widgets/root-layout";
 import {
   RouterProvider,
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: ROUTER_PATHS.USERS,
         element: <UsersPage />,
+      },
+      {
+        path: ROUTER_PATHS.TASK,
+        element: <TaskPage />,
+      },
+      {
+        path: ROUTER_PATHS.TASKS,
+        element: <TasksPage />,
       },
     ],
   },

@@ -1,4 +1,5 @@
-import { Session, useSesson } from "@/entities/session";
+import { Task, useTasks } from '@/entities/task';
+import { Session, useSession } from "@/entities/session";
 import { BoardPartial, useBoards } from "@/entities/board";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
@@ -9,7 +10,7 @@ function canRemoveBoard(board?: BoardPartial, session?: Session) {
 }
 
 function useCanRemoveBoardFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getBoardById = useBoards((s) => s.getBoardById);
   return (boardId: string) => {
     const board = getBoardById(boardId);
@@ -19,15 +20,42 @@ function useCanRemoveBoardFn() {
 
 function useCanRemoveBoard(boardId: string) {
   const board = useBoards((s) => s.getBoardById(boardId));
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   return canRemoveBoard(board, session);
+}
+
+function useUnassignBoardFromTaskFn() {
+  const updateTask = useTasks((s) => s.updateTask);
+
+  return async (task: Task) => {
+    const newTask = {
+      ...task,
+      boardId: undefined
+    };
+
+    await updateTask(newTask.id, newTask);
+  };
+}
+
+function useUnassignBoardFromTasksFn() {
+  const unassignBoardFromTask = useUnassignBoardFromTaskFn();
+  const tasks = useTasks((s) => s.tasks);
+
+  return async (boardId: string) => {
+    for await (const task of tasks) {
+      if (task.boardId === boardId) {
+        await unassignBoardFromTask(task);
+      }
+    }
+  }
 }
 
 function useRemoveBoard() {
   const getConfirmation = useGetConfirmation();
   const canRemoveFn = useCanRemoveBoardFn();
+  const unassignBoardFromTasks = useUnassignBoardFromTasksFn()
 
-  const { removeBoard } = useBoards();
+  const removeBoard = useBoards((s) => s.removeBoard);
 
   return async (boardId: string) => {
     const confirmation = await getConfirmation({
@@ -35,6 +63,7 @@ function useRemoveBoard() {
     });
 
     if (canRemoveFn(boardId) && confirmation) {
+      await unassignBoardFromTasks(boardId)
       await removeBoard(boardId);
     }
   };

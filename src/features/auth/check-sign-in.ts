@@ -1,8 +1,8 @@
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 import { User } from "@/entities/user";
 
 export function useCheckSingIn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
 
   return {
     isSignIn: () => !!session,

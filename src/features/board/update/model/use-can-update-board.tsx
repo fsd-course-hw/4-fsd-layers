@@ -1,5 +1,5 @@
 import { BoardPartial, useBoards } from "@/entities/board";
-import { Session, useSesson } from "@/entities/session";
+import { Session, useSession } from "@/entities/session";
 
 export function canUpdateBoard(board?: BoardPartial, session?: Session) {
   if (!board) return false;
@@ -7,7 +7,7 @@ export function canUpdateBoard(board?: BoardPartial, session?: Session) {
 }
 
 export function useCanUpdateBoardFn() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const getBoardById = useBoards((s) => s.getBoardById);
   return (boardId: string) => {
     const board = getBoardById(boardId);
@@ -17,6 +17,6 @@ export function useCanUpdateBoardFn() {
 
 export function useCanUpdateBoard(boardId: string) {
   const board = useBoards((s) => s.getBoardById(boardId));
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   return canUpdateBoard(board, session);
 }

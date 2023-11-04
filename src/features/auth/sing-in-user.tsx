@@ -1,9 +1,9 @@
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 import { User } from "@/entities/user";
 import { UiButton } from "@/shared/ui/ui-button";
 
 function useSignInUser() {
-  const createSession = useSesson((s) => s.createSession);
+  const createSession = useSession((s) => s.createSession);
 
   return (user: User) => {
     createSession({

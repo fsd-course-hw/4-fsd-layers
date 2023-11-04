@@ -13,6 +13,9 @@ export function NavLinks() {
       <NavLink to={ROUTER_PATHS.BOARDS} className={linkClassName}>
         Доски
       </NavLink>
+      <NavLink to={ROUTER_PATHS.TASKS} className={linkClassName}>
+        Задачи
+      </NavLink>
     </div>
   );
 }
