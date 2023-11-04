@@ -1,3 +1,4 @@
+import { Task, useTasks } from '@/entities/task';
 import { Session, useSesson } from "@/entities/session";
 import { BoardPartial, useBoards } from "@/entities/board";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
@@ -23,11 +24,36 @@ function useCanRemoveBoard(boardId: string) {
   return canRemoveBoard(board, session);
 }
 
+function useUnassignBoardFromTaskFn() {
+  const updateTask = useTasks((s) => s.updateTask);
+
+  return async (task: Task) => {
+    await updateTask(task.id, {
+      ...task,
+      boardId: undefined
+    })
+  };
+}
+
+function useUnassignBoardFromTasksFn() {
+  const unassignBoardFromTask = useUnassignBoardFromTaskFn();
+  const tasks = useTasks((s) => s.tasks);
+
+  return async (boardId: string) => Promise.all(tasks.map((task) => {
+    if (task.boardId === boardId) {
+      return unassignBoardFromTask(task);
+    }
+
+    return Promise.resolve();
+  }))
+}
+
 function useRemoveBoard() {
   const getConfirmation = useGetConfirmation();
   const canRemoveFn = useCanRemoveBoardFn();
+  const unassignBoardFromTasks = useUnassignBoardFromTasksFn()
 
-  const { removeBoard } = useBoards();
+  const removeBoard = useBoards((s) => s.removeBoard);
 
   return async (boardId: string) => {
     const confirmation = await getConfirmation({
@@ -35,7 +61,7 @@ function useRemoveBoard() {
     });
 
     if (canRemoveFn(boardId) && confirmation) {
-      await removeBoard(boardId);
+      await Promise.all([removeBoard(boardId), unassignBoardFromTasks(boardId)]);
     }
   };
 }
