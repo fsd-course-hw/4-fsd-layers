@@ -41,13 +41,13 @@ function useUnassignBoardFromTasksFn() {
   const unassignBoardFromTask = useUnassignBoardFromTaskFn();
   const tasks = useTasks((s) => s.tasks);
 
-  return async (boardId: string) => Promise.all(tasks.map((task) => {
-    if (task.boardId === boardId) {
-      return unassignBoardFromTask(task);
+  return async (boardId: string) => {
+    for await (const task of tasks) {
+      if (task.boardId === boardId) {
+        await unassignBoardFromTask(task);
+      }
     }
-
-    return Promise.resolve();
-  }))
+  }
 }
 
 function useRemoveBoard() {

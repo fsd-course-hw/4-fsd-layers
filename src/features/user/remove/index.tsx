@@ -9,18 +9,18 @@ function useUpdateRemovedUserBoardsFn() {
   const { boards, removeBoard, updateBoard } = useBoards();
 
   return async (userId: string) => {
-    return Promise.all(boards.map((board) => {
-      if (board.ownerId === userId) {
-        return removeBoard(board.id);
-      }
-
+    for await (const board of boards) {
       const newBoard = {
         ...board,
         editorsIds: board.editorsIds.filter((id) => id !== userId),
       };
 
-      return updateBoard(newBoard.id, newBoard);
-    }))
+      if (newBoard.ownerId === userId) {
+        await removeBoard(newBoard.id);
+      } else {
+        await updateBoard(newBoard.id, newBoard);
+      }
+    }
   }
 }
 
@@ -28,13 +28,11 @@ function useRemoveUserTasksFn() {
   const { tasks, removeTask } = useTasks();
 
   return async (userId: string) => {
-    return Promise.all(tasks.map((task) => {
+    for await (const task of tasks) {
       if (task.authorId === userId) {
-        return removeTask(task.id);
+        await removeTask(task.id);
       }
-
-      return Promise.resolve();
-    }))
+    }
   }
 }
 
