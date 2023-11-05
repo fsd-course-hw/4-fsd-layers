@@ -1,12 +1,12 @@
 import { useBoards } from "@/entities/board";
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 import { useUsers } from "@/entities/user";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
 
 function useRemoveUser() {
   const getConfirmation = useGetConfirmation();
-  const { currentSesson, removeSession } = useSesson();
+  const { currentSession, removeSession } = useSession();
   const { boards, removeBoard, updateBoard } = useBoards();
   const removeUser = useUsers((s) => s.removeUser);
 
@@ -17,7 +17,7 @@ function useRemoveUser() {
 
     if (!confirmation) return;
 
-    if (currentSesson?.userId === userId) {
+    if (currentSession?.userId === userId) {
       await removeSession();
     }
 

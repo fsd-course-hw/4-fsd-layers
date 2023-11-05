@@ -1,6 +1,6 @@
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 
 export function useCanCreateBoard() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   return !!session;
 }

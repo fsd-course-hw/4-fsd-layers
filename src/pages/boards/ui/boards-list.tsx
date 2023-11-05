@@ -20,10 +20,12 @@ export function BoardsList({ className }: { className?: string }) {
       <h2 className="text-lg mb-2 font-semibold">Все доски</h2>
       <table className="w-full">
         <thead>
-          <th className="text-start">Название:</th>
-          <th className="text-start">Админ:</th>
-          <th className="text-start">Редакторы:</th>
-          <th></th>
+          <tr>
+            <th className="text-start">Название:</th>
+            <th className="text-start">Админ:</th>
+            <th className="text-start">Редакторы:</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
           {boards

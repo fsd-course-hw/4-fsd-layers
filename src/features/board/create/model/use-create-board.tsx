@@ -1,9 +1,9 @@
 import { CreateBoardData, useBoards } from "@/entities/board";
 import { useCanCreateBoard } from "./use-can-create-board";
-import { useSesson } from "@/entities/session";
+import { useSession } from "@/entities/session";
 
 export function useCreateBoard() {
-  const session = useSesson((s) => s.currentSesson);
+  const session = useSession((s) => s.currentSession);
   const canCreate = useCanCreateBoard();
   const createBoardRaw = useBoards((s) => s.createBoard);
 
