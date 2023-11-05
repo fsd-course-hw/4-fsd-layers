@@ -2,6 +2,7 @@ import { Session, useSession } from "@/entities/session";
 import { BoardPartial, useBoards } from "@/entities/board";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
+import { useTasks } from "@/entities/task";
 
 function canRemoveBoard(board?: BoardPartial, session?: Session) {
   if (!board) return false;
@@ -24,8 +25,10 @@ function useCanRemoveBoard(boardId: string) {
 }
 
 function useRemoveBoard() {
+  const session = useSession((s) => s.currentSession);
   const getConfirmation = useGetConfirmation();
   const canRemoveFn = useCanRemoveBoardFn();
+  const { removeBoardFromTasks } = useTasks();
 
   const { removeBoard } = useBoards();
 
@@ -33,6 +36,10 @@ function useRemoveBoard() {
     const confirmation = await getConfirmation({
       description: "Вы действительно хотите удалить доску?",
     });
+
+    if (session?.userId) {
+      await removeBoardFromTasks(session.userId, boardId);
+    }
 
     if (canRemoveFn(boardId) && confirmation) {
       await removeBoard(boardId);

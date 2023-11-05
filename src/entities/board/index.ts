@@ -11,3 +11,4 @@ export type {
   CreateBoardData,
   UpdateBoardData,
 } from "./model/types";
+export { BoardSelect } from "./ui/board-select";

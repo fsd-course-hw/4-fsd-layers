@@ -1,5 +1,6 @@
 import { useBoards } from "@/entities/board";
 import { useSession } from "@/entities/session";
+import { useTasks } from "@/entities/task";
 import { useUsers } from "@/entities/user";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
@@ -7,7 +8,8 @@ import { RemoveIcon } from "@/shared/ui/ui-icons";
 function useRemoveUser() {
   const getConfirmation = useGetConfirmation();
   const { currentSession, removeSession } = useSession();
-  const { boards, removeBoard, updateBoard } = useBoards();
+  const { removeAuthorFromBoards } = useBoards();
+  const { removeUserTasks } = useTasks();
   const removeUser = useUsers((s) => s.removeUser);
 
   return async (userId: string) => {
@@ -21,19 +23,8 @@ function useRemoveUser() {
       await removeSession();
     }
 
-    for await (const board of boards) {
-      const newBoard = {
-        ...board,
-        editorsIds: board.editorsIds.filter((id) => id !== userId),
-      };
-
-      if (newBoard.ownerId === userId) {
-        await removeBoard(newBoard.id);
-      } else {
-        await updateBoard(newBoard.id, newBoard);
-      }
-    }
-
+    await removeAuthorFromBoards(userId);
+    await removeUserTasks(userId);
     await removeUser(userId);
   };
 }

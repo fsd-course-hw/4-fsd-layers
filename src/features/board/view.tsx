@@ -15,6 +15,6 @@ export function useCanViewBoardFn() {
   const getBoardById = useBoards((s) => s.getBoardById);
   return (boardId: string) => {
     const board = getBoardById(boardId);
-    return canViewBoard(board, session);
+    return !!canViewBoard(board, session);
   };
 }

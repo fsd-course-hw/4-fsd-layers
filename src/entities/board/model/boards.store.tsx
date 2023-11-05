@@ -10,6 +10,7 @@ export type BoardsStore = {
   createBoard: (data: CreateBoardData) => Promise<void>;
   updateBoard: (id: string, data: UpdateBoardData) => Promise<void>;
   removeBoard: (userId: string) => Promise<void>;
+  removeAuthorFromBoards: (userId: string) => Promise<void>;
 };
 
 export const useBoards = create<BoardsStore>((set, get) => ({
@@ -44,5 +45,19 @@ export const useBoards = create<BoardsStore>((set, get) => ({
     set({
       boards: await boardsRepository.getBoards(),
     });
+  },
+  removeAuthorFromBoards: async (userId: string) => {
+    for (const board of get().boards) {
+      const newBoard = {
+        ...board,
+        editorsIds: board.editorsIds.filter((id) => id !== userId),
+      };
+
+      if (newBoard.ownerId === userId) {
+        await get().removeBoard(newBoard.id);
+      } else {
+        await get().updateBoard(newBoard.id, newBoard);
+      }
+    }
   },
 }));
