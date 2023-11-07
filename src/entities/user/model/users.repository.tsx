@@ -1,7 +1,7 @@
 import { persistStorage } from "@/shared/lib/persist-storage";
 import { User } from "./types";
 
-const USERS_STORAGE_KEY = "users_storsage";
+const USERS_STORAGE_KEY = "users_storage";
 export const usersRepository = {
   getUsers: () => {
     return persistStorage.getItemSafe<User[]>(USERS_STORAGE_KEY, []);
