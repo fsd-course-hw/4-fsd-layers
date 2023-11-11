@@ -8,6 +8,8 @@ import {
   redirect,
 } from "react-router-dom";
 import { ROUTER_PATHS } from "@/shared/constants/routes";
+import {TaskPage} from "@/pages/task";
+import {TasksPage} from "@/pages/tasks";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const router = createBrowserRouter([
       {
         path: "",
         loader: () => redirect(ROUTER_PATHS.USERS),
+      },
+      {
+        path: ROUTER_PATHS.TASK,
+        element: <TaskPage />,
+      },
+      {
+        path: ROUTER_PATHS.TASKS,
+        element: <TasksPage />,
       },
       {
         path: ROUTER_PATHS.BOARD,
