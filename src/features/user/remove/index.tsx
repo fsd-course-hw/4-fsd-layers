@@ -1,5 +1,6 @@
 import { useBoards } from "@/entities/board";
 import { useSesson } from "@/entities/session";
+import { useTasks } from "@/entities/task";
 import { useUsers } from "@/entities/user";
 import { useGetConfirmation } from "@/shared/lib/confirmation";
 import { RemoveIcon } from "@/shared/ui/ui-icons";
@@ -8,6 +9,7 @@ function useRemoveUser() {
   const getConfirmation = useGetConfirmation();
   const { currentSesson, removeSession } = useSesson();
   const { boards, removeBoard, updateBoard } = useBoards();
+  const { tasks, removeTask } = useTasks();
   const removeUser = useUsers((s) => s.removeUser);
 
   return async (userId: string) => {
@@ -19,6 +21,12 @@ function useRemoveUser() {
 
     if (currentSesson?.userId === userId) {
       await removeSession();
+    }
+
+    for await (const task of tasks) {
+      if(task.authorId === userId) {
+        await removeTask(task.id)
+      }
     }
 
     for await (const board of boards) {

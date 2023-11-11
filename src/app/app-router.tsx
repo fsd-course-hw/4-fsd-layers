@@ -8,6 +8,7 @@ import {
   redirect,
 } from "react-router-dom";
 import { ROUTER_PATHS } from "@/shared/constants/routes";
+import { TasksPage } from "@/pages/tasks";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: ROUTER_PATHS.USERS,
         element: <UsersPage />,
+      },
+      {
+        path: ROUTER_PATHS.TASKS,
+        element: <TasksPage />,
       },
     ],
   },

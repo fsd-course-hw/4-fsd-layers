@@ -3,4 +3,5 @@ export const ROUTER_PATHS = {
   BOARD: "board/:boardId",
   BOARDS: "board",
   USERS: "user",
+  TASKS: "tasks"
 } as const;
