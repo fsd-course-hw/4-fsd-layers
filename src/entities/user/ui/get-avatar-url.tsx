@@ -1,3 +1,4 @@
+// почему это в ui
 export function getAvatarUrl(avatarId: string | number) {
   const id = Math.min(8, Math.max(1, parseInt(String(avatarId), 10)));
 

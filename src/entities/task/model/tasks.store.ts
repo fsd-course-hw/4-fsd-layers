@@ -23,7 +23,7 @@ export const useTasks = create<TasksStore>((set, get) => ({
     });
   },
   createTask: async (data) => {
-    const newTask = { id: nanoid(), ...data/* , cols: [] */ };
+    const newTask = { id: nanoid(), ...data };
     await tasksRepository.saveTask(newTask);
     set({
       tasks: await tasksRepository.getTasks(),

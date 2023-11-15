@@ -1,10 +1,9 @@
-import { UiModal } from "@/shared/ui/ui-modal";
-import { UiButton } from "@/shared/ui/ui-button";
 import { Controller, useForm } from "react-hook-form";
 import { UiTextField } from "@/shared/ui/ui-text-field";
 import { useUpdateBoard } from "../model/use-update-board";
 import { UpdateBoardData, useBoards } from "@/entities/board";
 import { UserMultiSelect, UserSelect } from "@/entities/user";
+import { UiModal1 } from "@/shared/ui/ui-modal-1";
 
 export function UpdateBoardModal({
   onClose,
@@ -24,12 +23,12 @@ export function UpdateBoardModal({
   const onSubmit = handleSubmit((data) => updateBoard(data, onClose));
 
   return (
-    <UiModal isOpen onClose={onClose} width="md">
-      <form onSubmit={onSubmit}>
-        <UiModal.Header>
-          <h1>Редактирование доски</h1>
-        </UiModal.Header>
-        <UiModal.Body className="flex flex-col gap-4">
+    <UiModal1
+      heading="Редактирование доски"
+      onClose={onClose}
+      onSubmit={onSubmit}
+      renderBody={
+        <>
           <Controller
             control={control}
             name="name"
@@ -72,16 +71,8 @@ export function UpdateBoardModal({
               />
             )}
           />
-        </UiModal.Body>
-        <UiModal.Footer>
-          <UiButton type="button" variant="outlined" onClick={onClose}>
-            Отмена
-          </UiButton>
-          <UiButton type="submit" variant="primary">
-            Обновить
-          </UiButton>
-        </UiModal.Footer>
-      </form>
-    </UiModal>
+        </>
+      }
+    />
   );
 }
