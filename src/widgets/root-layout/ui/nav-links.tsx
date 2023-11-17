@@ -7,6 +7,9 @@ export function NavLinks() {
     clsx(isActive && "underline");
   return (
     <div className="text-lg flex gap-5">
+      <NavLink to={ROUTER_PATHS.TASKS} className={linkClassName}>
+        Задачи
+      </NavLink>
       <NavLink to={ROUTER_PATHS.USERS} className={linkClassName}>
         Пользователи
       </NavLink>
