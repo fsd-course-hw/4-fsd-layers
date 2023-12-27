@@ -1,22 +1,22 @@
-import { CreateBoardButton, useCanCreateBoard } from "@/features/board/create";
+import { CreateTaskButton, useCanCreateTask } from "@/features/task/create";
 import { UiCenterContentLayout } from "@/shared/ui/layouts/ui-center-content-layout";
-import { BoardsList } from "./boards-list";
+import { TasksList } from "./tasks-list";
 
-export function BoardsPage() {
-  const canCreate = useCanCreateBoard();
+export function TasksPage() {
+  const canCreate = useCanCreateTask();
 
   const body = (
     <>
       <div className="flex gap-2 mt-10">
-        <CreateBoardButton />
+        <CreateTaskButton />
       </div>
-      <BoardsList className="mt-10" />
+      <TasksList className="mt-10" />
     </>
   );
 
   return (
     <UiCenterContentLayout className="py-10">
-      <h1 className="text-3xl ">Доски</h1>
+      <h1 className="text-3xl ">Задачи</h1>
       {canCreate ? (
         body
       ) : (
