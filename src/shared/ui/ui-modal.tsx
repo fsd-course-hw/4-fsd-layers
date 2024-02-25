@@ -38,7 +38,7 @@ export function UiModal({
       <div
         data-id="modal"
         className={clsx(
-          "bg-white rounded-lg min-h-[320px] mx-auto relative",
+          "bg-white rounded-lg mx-auto relative",
           "flex flex-col ",
           {
             md: "max-w-[640px] w-full",
