@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export function TaskList({ className }: { className?: string }) {
   const { tasks } = useTasksStore();
-  const boards = useBoards((s) => s.boards);
+  const boards = useBoards((s) => s.boardsMap());
 
   const canViewTask = useCanViewTaskFn();
 
@@ -34,9 +34,11 @@ export function TaskList({ className }: { className?: string }) {
                   {task.title}
                 </td>
                 <td className="p-2">
-                  <Link to={getBoardUrl(task.boardId)}>
-                    {boards.find((board) => board.id === task.boardId)?.name}
-                  </Link>
+                  {task.boardId && boards[task.boardId] && (
+                    <Link to={getBoardUrl(task.boardId)}>
+                      {boards[task.boardId].name}
+                    </Link>
+                  )}
                 </td>
                 <td className="p-2">
                   <div className="flex gap-2 flex-row-reverse">
