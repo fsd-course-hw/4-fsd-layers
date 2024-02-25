@@ -1,13 +1,9 @@
-import { useBoards } from "@/entities/board";
+import { getBoardUrl, useBoards } from "@/entities/board";
 import { AvatarsList, UserPreview, useUsers } from "@/entities/user";
 import { RemoveBoardButton } from "@/features/board/remove";
 import { UpdateBoardButton } from "@/features/board/update";
 import { useCanViewBoardFn } from "@/features/board/view";
-import { ROUTER_PATHS } from "@/shared/constants/routes";
-import { Link, generatePath } from "react-router-dom";
-
-const boardUrl = (boardId: string) =>
-  generatePath(ROUTER_PATHS.HOME + ROUTER_PATHS.BOARD, { boardId });
+import { Link } from "react-router-dom";
 
 export function BoardsList({ className }: { className?: string }) {
   const { boards } = useBoards();
@@ -37,7 +33,7 @@ export function BoardsList({ className }: { className?: string }) {
               >
                 <td className="p-2">
                   <Link
-                    to={boardUrl(board.id)}
+                    to={getBoardUrl(board.id)}
                     className="text-xl text-blue-500"
                   >
                     {board.name}
@@ -54,7 +50,7 @@ export function BoardsList({ className }: { className?: string }) {
                   />
                 </td>
                 <td className="p-2">
-                  <div className="flex gap-2 ml-auto">
+                  <div className="flex gap-2 flex-row-reverse">
                     <UpdateBoardButton boardId={board.id} />
                     <RemoveBoardButton boardId={board.id} />
                   </div>
@@ -63,6 +59,6 @@ export function BoardsList({ className }: { className?: string }) {
             ))}
         </tbody>
       </table>
-    </div>
+    </div >
   );
 }

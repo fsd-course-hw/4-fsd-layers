@@ -7,6 +7,7 @@ export type BoardsStore = {
   boards: BoardPartial[];
   getBoardById: (id: string) => BoardPartial | undefined;
   loadBoards: () => Promise<void>;
+  boardsMap: () => Record<string, BoardPartial>;
   createBoard: (data: CreateBoardData) => Promise<void>;
   updateBoard: (id: string, data: UpdateBoardData) => Promise<void>;
   removeBoard: (userId: string) => Promise<void>;
@@ -21,6 +22,15 @@ export const useBoards = create<BoardsStore>((set, get) => ({
     set({
       boards: await boardsRepository.getBoards(),
     });
+  },
+  boardsMap: () => {
+    return get().boards.reduce(
+      (acc, board) => {
+        acc[board.id] = board;
+        return acc;
+      },
+      {} as Record<string, BoardPartial>,
+    );
   },
   createBoard: async (data) => {
     const newBoard = { id: nanoid(), ...data, cols: [] };
