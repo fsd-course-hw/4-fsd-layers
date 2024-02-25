@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { InputHTMLAttributes, PropsWithRef, useId } from "react";
+import { InputHTMLAttributes, PropsWithRef, TextareaHTMLAttributes, useId } from "react";
 
 export type UiTextFieldWithInputProps = {
   className?: string;
@@ -14,7 +14,7 @@ export type UiTextFieldWithTextareaProps = {
   label?: string;
   error?: string;
   inputProps?: never;
-  textareaProps?: PropsWithRef<InputHTMLAttributes<HTMLTextAreaElement>>;
+  textareaProps?: PropsWithRef<TextareaHTMLAttributes<HTMLTextAreaElement>>;
 };
 
 
